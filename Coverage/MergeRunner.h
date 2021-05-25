@@ -3,7 +3,13 @@
 #include "RuntimeOptions.h"
 
 #include <assert.h>
+#if (_MSC_VER >= 1920)
+#include <filesystem> // C++ 17  feature
+namespace fs = std::filesystem;
+#else
 #include <experimental/filesystem> // C++ 17  feature
+namespace fs = std::experimental::filesystem;
+#endif
 #include <fstream>
 #include <map>
 
@@ -12,7 +18,7 @@ class MergeRunner
 private:
     RuntimeOptions _options;    ///< Copy local of option.
 
-    struct Profile 
+    struct Profile
     {
         std::string res;
         std::string prof;
@@ -40,7 +46,7 @@ private:
                 std::string filename = buffer.substr(6);
 
                 Profile profile;
-                
+
                 // Read next line (we suppose file is not corrupt)
                 std::getline(outputFile, buffer);
                 assert(buffer.find_first_of("RES:") != std::string::npos);
@@ -106,20 +112,20 @@ public:
     /// Run merge
     void execute()
     {
-        std::experimental::filesystem::path outputPath(_options.OutputFile);
-        std::experimental::filesystem::path mergedPath(_options.MergedOutput);
-        
+        fs::path outputPath(_options.OutputFile);
+        fs::path mergedPath(_options.MergedOutput);
+
         // Check we have data
-        if(!std::experimental::filesystem::exists(outputPath))
+        if(!fs::exists(outputPath))
         {
             const std::string msg = "Merge failure: Impossible to find output file: " + _options.OutputFile;
             throw std::exception(msg.c_str());
         }
 
         // Nothing to merge = Copy and quit
-        if (!std::experimental::filesystem::exists(mergedPath))
+        if (!fs::exists(mergedPath))
         {
-            std::experimental::filesystem::copy(outputPath, mergedPath);
+            fs::copy(outputPath, mergedPath);
             return;
         }
 
