@@ -106,7 +106,7 @@ public:
     {
         assert(!_options.MergedOutput.empty());
         assert(!_options.OutputFile.empty());
-        assert(_options.ExportFormat == RuntimeOptions::Native); // Support only this !
+        assert(_options.ExportFormat == ExportFormatType::Native); // Support only this !
     }
 
     /// Run merge

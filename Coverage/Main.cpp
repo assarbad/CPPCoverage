@@ -34,7 +34,7 @@ void ParseCommandLine(int argc, const char **argv)
 
     LPTSTR cmd = GetCommandLine();
     std::string cmdLine = cmd;
-    
+
     // Parse arguments
     for (int i = 1; i < argc; ++i)
     {
@@ -59,15 +59,15 @@ void ParseCommandLine(int argc, const char **argv)
             std::string t(argv[i]);
             if (t == "native")
             {
-                opts.ExportFormat = RuntimeOptions::Native;
+                opts.ExportFormat = ExportFormatType::Native;
             }
             else if (t == "cobertura")
             {
-                opts.ExportFormat = RuntimeOptions::Cobertura;
+                opts.ExportFormat = ExportFormatType::Cobertura;
             }
             else if (t == "clover")
             {
-                opts.ExportFormat = RuntimeOptions::Clover;
+                opts.ExportFormat = ExportFormatType::Clover;
             }
             else
             {
@@ -154,7 +154,7 @@ void ParseCommandLine(int argc, const char **argv)
     }
 
     // Check we can merge
-    if (opts.ExportFormat != RuntimeOptions::Native && !opts.MergedOutput.empty())
+    if (opts.ExportFormat != ExportFormatType::Native && !opts.MergedOutput.empty())
     {
         throw std::exception("Merge mode is only for RuntimeOptions::Native mode.");
     }
@@ -210,12 +210,12 @@ int main(int argc, const char** argv)
     catch(const std::exception& e)
     {
         std::cerr << "Error: " << e.what() << std::endl;
-        
+
         // When you miss --, exception is throw SO your need syntax help !
         ShowHelp();
         return 1; // Command error
     }
-    
+
     try
     {
         if(opts.Executable.empty())

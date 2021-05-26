@@ -8,7 +8,7 @@ private:
 	RuntimeOptions() :
 		Quiet(false),
 		UseStaticCodeAnalysis(false),
-		ExportFormat(Native)
+		ExportFormat(ExportFormatType::Native)
 	{}
 
 	std::string sourcePath;
@@ -23,19 +23,18 @@ public:
 	bool Quiet;
 	bool UseStaticCodeAnalysis;
 
-	enum ExportFormatType
+	enum class ExportFormatType
 	{
 		Native,
 		Cobertura,
 		Clover
-
 	} ExportFormat;
 
 
 	std::string OutputFile;
 
-    std::string MergedOutput;
-    std::string WorkingDirectory;
+	std::string MergedOutput;
+	std::string WorkingDirectory;
 	std::string CodePath;
 	std::string Executable;
 	std::string ExecutableArguments;
@@ -74,3 +73,5 @@ public:
 		return sourcePath;
 	}
 };
+
+using ExportFormatType = RuntimeOptions::ExportFormatType;

@@ -107,12 +107,12 @@ struct FileCallbackInfo
 		}
 	}
 
-	void WriteReport(RuntimeOptions::ExportFormatType exportFormat, std::unordered_map<std::string, std::unique_ptr<std::vector<ProfileInfo>>>& mergedProfileInfo, const std::string& filename)
+	void WriteReport(ExportFormatType exportFormat, std::unordered_map<std::string, std::unique_ptr<std::vector<ProfileInfo>>>& mergedProfileInfo, const std::string& filename)
 	{
 		switch (exportFormat)
 		{
-			case RuntimeOptions::Clover: WriteClover(filename); break;
-			case RuntimeOptions::Cobertura: WriteCobertura(filename); break;
+			case ExportFormatType::Clover: WriteClover(filename); break;
+			case ExportFormatType::Cobertura: WriteCobertura(filename); break;
 			default: WriteNative(filename, mergedProfileInfo); break;
 		}
 	}
@@ -211,7 +211,7 @@ struct FileCallbackInfo
 		ofs << "<?xml version=\"1.0\" encoding=\"utf-8\"?>" << std::endl;
 		ofs << "<coverage line-rate=\"" << lineRate << "\"" << " " << "version=\"\">" << std::endl;
 		ofs << "\t" << "<packages>" << std::endl;
-		
+
 		ofs << "\t\t" << "<package name=\"" << packageName << "\" line-rate=\"" << lineRate << "\">" << std::endl;
 		ofs << "\t\t\t" << "<classes>" << std::endl;
 		for (auto& it : lineData)
